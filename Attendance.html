@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Employee Attendance</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background: white; }
+        .sidebar { height: calc(100vh - 4rem); }
+        @media (max-width: 768px) {
+            .sidebar { position: fixed; bottom: 0; left: 0; right: 0; z-index: 50; background: #2D1E17; padding: 0.5rem; }
+            .sidebar nav { display: flex; justify-content: space-around; }
+            .main-content { margin-bottom: 5rem; }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+
+    <!-- Header -->
+    <nav class="bg-teal-600 text-white p-4 fixed top-0 w-full z-50 shadow-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-2xl font-bold flex items-center">
+                <i class="bi bi-building mr-2"></i>
+                WorkForce360 
+            </h1>
+            <div class="flex items-center gap-4">
+                <span id="currentTime" class="font-mono text-sm"></span>
+                <div class="relative group">
+                    <i class="bi bi-person-circle text-2xl cursor-pointer"></i>
+                    <div class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg hidden group-hover:block">
+                        <div class="p-2 border-b">
+                            <p class="font-semibold text-gray-500">John Doe</p>
+                            <p class="text-sm text-gray-500">HR ID: HR001</p>
+                        </div>
+                        <a href="Admin.html" class="block px-4 py-2 text-blue-500 hover:bg-gray-100">Profile</a>
+                        <a href="LandingPage.html" class="block px-4 py-2 hover:bg-gray-100 text-red-600">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mx-auto flex flex-col md:flex-row gap-6 p-4 mt-16">
+        <!-- Sidebar -->
+        <aside class="sidebar bg-white rounded-lg shadow-lg w-full md:w-64 p-4">
+            <nav class="space-y-2">
+                <a href="Admin.html" class="block p-2 rounded hover:bg-teal-50 text-teal-600"><i class="bi bi-calendar-check mr-2"></i> Dashboard</a>
+                <a href="EmpAdmin.html" class="block p-2 rounded hover:bg-teal-50 text-teal-600"><i class="bi bi-people mr-2"></i> Employees</a>
+                <a href="Attendance.html" class="block p-2 rounded bg-teal-600 text-white"><i class="bi bi-calendar-check mr-2"></i> Attendance</a>
+                <a href="analytic.html" class="block p-2 rounded hover:bg-teal-50 text-teal-600"><i class="bi bi-bar-chart mr-2"></i> Analytics</a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 space-y-6 main-content">
+            <div class="bg-white p-6 rounded-lg shadow-lg">
+                <h2 class="text-xl font-bold mb-4"><i class="bi bi-calendar-check text-teal-600"></i> Employee Attendance</h2>
+                
+                <!-- Filter Controls -->
+                <div class="flex flex-col md:flex-row gap-4 mb-4">
+                    <input type="text" id="searchEmployee" class="p-2 border rounded-lg w-full md:w-1/3" placeholder="Search Employee...">
+                    <button class="px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700" onclick="filterAttendance()">Filter</button>
+                </div>
+
+                <!-- Attendance Table -->
+                <div class="overflow-x-auto">
+                    <table class="min-w-full bg-white border">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Name</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Department</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Date</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="attendanceTable">
+                            <tr class="hover:bg-gray-50">
+                                <td class="px-6 py-4">John Doe</td>
+                                <td class="px-6 py-4">IT</td>
+                                <td class="px-6 py-4">2025-02-25</td>
+                                <td class="px-6 py-4">
+                                    <select class="p-1 border rounded">
+                                        <option value="Present">Present</option>
+                                        <option value="Absent">Absent</option>
+                                        <option value="On Leave">On Leave</option>
+                                    </select>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <button class="px-4 py-1 bg-teal-500 text-white rounded hover:bg-teal-600" onclick="updateAttendance(this)">Save</button>
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-gray-50">
+                                <td class="px-6 py-4">Jane Smith</td>
+                                <td class="px-6 py-4">HR</td>
+                                <td class="px-6 py-4">2025-02-25</td>
+                                <td class="px-6 py-4">
+                                    <select class="p-1 border rounded">
+                                        <option value="Present">Present</option>
+                                        <option value="Absent">Absent</option>
+                                        <option value="On Leave">On Leave</option>
+                                    </select>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <button class="px-4 py-1 bg-teal-500 text-white rounded hover:bg-teal-600" onclick="updateAttendance(this)">Save</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    
+     <script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const user = getLoggedInUser();
+        if (!user) {
+            alert("Unauthorized access! Redirecting to login...");
+            window.location.href = "LandingPage.html";
+            return;
+        }
+        fetchAttendanceData(user.hrId); // Fetch attendance using HR ID
+    });
+
+    function getLoggedInUser() {
+        return JSON.parse(localStorage.getItem("loggedInUser")) || null;
+    }
+
+    async function fetchAttendanceData(hrId) {
+        try {
+            const response = await fetch(`/api/attendance?hrId=${hrId}`);
+            const data = await response.json();
+
+            const tableBody = document.getElementById("attendanceTable");
+            tableBody.innerHTML = ""; // Clear existing rows
+
+            data.forEach(employee => {
+                const row = document.createElement("tr");
+                row.classList.add("hover:bg-gray-50");
+                row.innerHTML = `
+                    <td class="px-6 py-4">${employee.name}</td>
+                    <td class="px-6 py-4">${employee.department}</td>
+                    <td class="px-6 py-4">${employee.date}</td>
+                    <td class="px-6 py-4">
+                        <select class="p-1 border rounded">
+                            <option value="Present" ${employee.status === "Present" ? "selected" : ""}>Present</option>
+                            <option value="Absent" ${employee.status === "Absent" ? "selected" : ""}>Absent</option>
+                            <option value="On Leave" ${employee.status === "On Leave" ? "selected" : ""}>On Leave</option>
+                        </select>
+                    </td>
+                    <td class="px-6 py-4">
+                        <button class="px-4 py-1 bg-teal-500 text-white rounded hover:bg-teal-600" onclick="updateAttendance(this, '${employee.id}')">Save</button>
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            });
+        } catch (error) {
+            console.error("Error fetching attendance:", error);
+        }
+    }
+
+    async function updateAttendance(button, empId) {
+        let row = button.closest("tr");
+        let status = row.querySelector("select").value;
+
+        try {
+            const response = await fetch(`/api/attendance/update`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ empId, status })
+            });
+
+            if (response.ok) {
+                alert(`Attendance updated successfully for Employee ID: ${empId}`);
+            } else {
+                alert("Failed to update attendance");
+            }
+        } catch (error) {
+            console.error("Error updating attendance:", error);
+        }
+    }
+</script>
+</body>
+</html>
+

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics - WorkForce360</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="bg-gray-50">
+
+    <!-- Navbar -->
+    <nav class="bg-teal-600 text-white p-4 fixed top-0 w-full z-50 shadow-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-2xl font-bold flex items-center">
+                <i class="bi bi-building mr-2"></i>
+                WorkForce360 
+            </h1>
+            <div class="flex items-center gap-4">
+                <span id="currentTime" class="font-mono text-sm"></span>
+                <div class="relative group">
+                    <i class="bi bi-person-circle text-2xl cursor-pointer"></i>
+                    <div class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg hidden group-hover:block">
+                        <div class="p-2 border-b">
+                            <p class="font-semibold">John Doe</p>
+                            <p class="text-sm text-gray-500">Employee ID: EMP001</p>
+                        </div>
+                        <a href="#" class="block px-4 py-2 hover:bg-gray-100">Profile</a>
+                        <a href="#" class="block px-4 py-2 hover:bg-gray-100 text-red-600">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Sidebar and Main Content Wrapper -->
+    <div class="container mx-auto flex flex-col md:flex-row gap-6 p-4 mt-16">
+        <!-- Sidebar -->
+        <aside class="sidebar bg-white rounded-lg shadow-lg w-full md:w-64 p-4">
+            <nav class="space-y-2">
+                <a href="Employee.html" class="block p-2 rounded hover:bg-teal-50 text-teal-600"><i class="bi bi-calendar-check mr-2"></i> Dashboard</a>
+                <a href="EmpLeaveRequest.html" class="block p-2 rounded hover:bg-teal-50 text-teal-600"><i class="bi bi-people mr-2"></i> Leave Request</a>
+                <a href="Empattendance.html" class="block p-2 rounded hover:bg-teal-50 text-teal-600"><i class="bi bi-calendar-check mr-2"></i> Attendance</a>
+                <a href="Empanalytic.html" class="block p-2 rounded bg-teal-600 text-white"><i class="bi bi-bar-chart mr-2"></i> Analytics</a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 p-6 ml-64 space-y-6">
+            <!-- Analytics Overview -->
+            <div class="bg-white p-4 rounded-lg shadow-lg">
+                <h2 class="text-xl font-bold flex items-center gap-2">
+                    <i class="bi bi-bar-chart text-teal-600"></i>
+                    Employee Performance Analytics
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-4">
+                    <div class="bg-white p-6 rounded-lg shadow-lg">
+                        <h3 class="text-gray-500 flex items-center gap-2">
+                            <i class="bi bi-person-fill text-teal-600"></i>
+                            Employee Name: Jane Smith
+                        </h3>
+                        <p class="text-xl font-bold text-teal-600">Performance Score: 4.8/5</p>
+                        <div class="flex text-yellow-400 text-lg mt-2">
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-lg">
+                        <h3 class="text-gray-500 flex items-center gap-2">
+                            <i class="bi bi-person-fill text-teal-600"></i>
+                            Employee Name: John Doe
+                        </h3>
+                        <p class="text-xl font-bold text-teal-600">Performance Score: 3.6/5</p>
+                        <div class="flex text-yellow-400 text-lg mt-2">
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-half"></i>
+                            <i class="bi bi-star"></i>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-lg">
+                        <h3 class="text-gray-500 flex items-center gap-2">
+                            <i class="bi bi-person-fill text-teal-600"></i>
+                            Employee Name: Mark Lee
+                        </h3>
+                        <p class="text-xl font-bold text-teal-600">Performance Score: 4.2/5</p>
+                        <div class="flex text-yellow-400 text-lg mt-2">
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-half"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Analytics Graphs and Charts -->
+            <div class="bg-white p-6 rounded-lg shadow-lg">
+                <h2 class="text-xl font-bold flex items-center gap-2">
+                    <i class="bi bi-graph-up-arrow text-teal-600"></i>
+                    Performance Graphs
+                </h2>
+                <div class="mt-4">
+                    <div class="mb-4">
+                        <h3 class="text-gray-500">Monthly Performance</h3>
+                        <!-- You can embed a graph here using a library like Chart.js or ApexCharts -->
+                        <div class="w-full h-64 bg-gray-200 rounded-lg"></div>
+                    </div>
+                    <div>
+                        <h3 class="text-gray-500">Quarterly Performance</h3>
+                        <!-- Another chart or graph for quarterly data -->
+                        <div class="w-full h-64 bg-gray-200 rounded-lg"></div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+</body>
+</html>

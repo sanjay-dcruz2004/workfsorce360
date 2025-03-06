@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leave Request - WorkForce360</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="bg-gray-50">
+
+    <!-- Navbar -->
+    <nav class="bg-teal-600 text-white p-4 fixed top-0 w-full z-50 shadow-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-2xl font-bold flex items-center">
+                <i class="bi bi-building mr-2"></i>
+                WorkForce360 
+            </h1>
+            <script>
+                document.addEventListener("DOMContentLoaded", function () {
+                    const user = JSON.parse(localStorage.getItem("loggedInUser"));
+            
+                    if (user) {
+                        document.getElementById("employeeName").textContent = user.name;
+                        document.getElementById("employeeId").textContent = `Employee ID: ${user.employeeId}`;
+                    }
+                });
+            </script>
+            
+            <div class="flex items-center gap-4">
+                <span id="currentTime" class="font-mono text-sm"></span>
+                <div class="relative group">
+                    <i class="bi bi-person-circle text-2xl cursor-pointer"></i>
+                    <div class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg hidden group-hover:block">
+                        <div class="p-2 border-b">
+                            <p id="employeeName" class="font-semibold text-gray-500"></p>
+                            <p id="employeeId" class="text-sm text-gray-500"></p>
+                        </div>
+                        <a href="#" class="block px-4 py-2 text-blue-500 hover:bg-gray-100">Profile</a>
+                        <a href="#" id="logoutBtn" class="block px-4 py-2 hover:bg-gray-100 text-red-600">Logout</a>
+                    </div>
+                </div>
+            </div>
+            
+            <script>
+                // Logout function
+                document.getElementById("logoutBtn").addEventListener("click", function () {
+                    localStorage.removeItem("loggedInUser");
+                    window.location.replace("loginPage.html");
+                });
+            </script>
+    </nav>
+
+    <div class="container mx-auto flex flex-col md:flex-row gap-6 p-4 mt-16">
+        <!-- Sidebar -->
+        <aside class="sidebar bg-white rounded-lg shadow-lg w-full md:w-64 p-4">
+            <nav class="space-y-2">
+                <a href="Employee.html" class="block p-2 rounded hover:bg-teal-50 text-teal-600"><i class="bi bi-calendar-check mr-2"></i> Dashboard</a>
+                <a href="EmpLeaveRequest.html" class="block p-2 rounded bg-teal-600 text-white"><i class="bi bi-people mr-2"></i> Leave Request</a>
+                <a href="Empattendance.html" class="block p-2 rounded hover:bg-teal-50 text-teal-600"><i class="bi bi-calendar-check mr-2"></i> Attendance</a>
+                <a href="Empanalytic.html" class="block p-2 rounded hover:bg-teal-50 text-teal-600"><i class="bi bi-bar-chart mr-2"></i> Analytics</a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 space-y-6 p-6">
+            <div id="notification" class="hidden fixed top-5 right-5 bg-green-500 text-white p-4 rounded-lg shadow-lg">
+                Leave request submitted successfully!
+            </div>
+            <!-- Leave Request Form -->
+            <div class="bg-white p-6 rounded-lg shadow-lg">
+                <h2 class="text-xl font-bold mb-4">Leave Request Form</h2>
+                
+                <form action="#" method="POST">
+                    
+                    <!-- Leave Type -->
+                    <div class="mb-4">
+                        <label for="leaveType" class="block text-gray-700 font-semibold mb-2">Leave Type</label>
+                        <select id="leaveType" name="leaveType" class="w-full p-3 border border-gray-300 rounded-lg">
+                            <option value="Sick leave">Sick Leave</option>
+                            <option value="Paid leave">Paid Leave</option>
+                            <option value="Maternity leave">Maternity Leave</option>
+                            <option value="Casual leave">Casual Leave</option>
+                            <option value="Paternity leave">Paternity Leave</option>
+                            <option value="Compensatory leave">Compensatory Leave</option>
+                            <option value="Unpaid leave">Unpaid Leave</option>
+                        </select>
+                    </div>
+
+                    <!-- Leave Dates -->
+                    <div class="mb-4">
+                        <label for="startDate" class="block text-gray-700 font-semibold mb-2">Start Date</label>
+                        <input type="date" id="startDate" name="startDate" class="w-full p-3 border border-gray-300 rounded-lg" required>
+
+                        <label for="endDate" class="block text-gray-700 font-semibold mt-4 mb-2">End Date</label>
+                        <input type="date" id="endDate" name="endDate" class="w-full p-3 border border-gray-300 rounded-lg" required>
+                    </div>
+
+                    <!-- Reason -->
+                    <div class="mb-4">
+                        <label for="reason" class="block text-gray-700 font-semibold mb-2">Reason</label>
+                        <textarea id="reason" name="reason" rows="4" class="w-full p-3 border border-gray-300 rounded-lg" placeholder="Enter the reason for your leave request" required></textarea>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="flex justify-end">
+                        <button type="submit" class="px-6 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition">
+                            Submit Request
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+        document.querySelector("form").addEventListener("submit", async (event) => {
+            event.preventDefault();
+
+            const user = JSON.parse(localStorage.getItem("loggedInUser"));
+            const employeeID = user ? user.employeeId : null;
+
+            if (!employeeID) {
+                alert("Employee ID not found. Please log in again.");
+                return;
+            }
+
+            const leaveType = document.getElementById("leaveType").value;
+            const startDate = document.getElementById("startDate").value;
+            const endDate = document.getElementById("endDate").value;
+            const reason = document.getElementById("reason").value;
+
+            const requestBody = {
+                employeeID,
+                leaveType,
+                startDate,
+                endDate,
+                reason
+            };
+
+            try {
+                const response = await fetch("http://localhost:3001/leave-requests/:hrId", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(requestBody)
+                });
+
+                const result = await response.json();
+                if (response.ok) {
+                const notification = document.getElementById("notification");
+                notification.classList.remove("hidden");
+                notification.textContent = result.message;
+
+                setTimeout(() => {
+                    notification.classList.add("hidden"); // Hide notification after 3 seconds
+                }, 3000);
+
+                this.reset(); // Reset the form
+            } else {
+                alert(result.message); // Fallback for errors
+            }
+                
+
+                // Redirect to HR/Admin page after submission
+                window.location.href = "EmpAdmin.html";
+
+            } catch (error) {
+                console.error("Error submitting leave request:", error);
+            }
+        });
+    });
+    </script>
+</body>
+</html>
